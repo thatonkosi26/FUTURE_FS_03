@@ -1,7 +1,5 @@
 # GrillHouse — Premium Fast Food Web Application
 
-![GrillHouse](assets/images/ChatGPT%20Image%20May%207,%202026,%2012_28_33%20PM.png)
-
 > A fully functional, frontend-only fast food ordering web application built with plain HTML, CSS, and JavaScript. No frameworks. No build tools. Just open and run.
 
 ---
