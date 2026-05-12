@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GrillHouse - Premium fast food delivered to your door. Burgers, chicken, sides and more in South Africa.">
+  <title>GrillHouse — Premium Fast Food</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+/* ============================================================
+   GRILLHOUSE — Complete Unified Design
+   Colors: #111010 bg · #F5A623 amber · #E8261A red
+============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:#111010;color:#F0EDE8;overflow-x:hidden;line-height:1.6;}
+a{text-decoration:none;color:inherit;}ul{list-style:none;}button{cursor:pointer;border:none;background:none;font-family:inherit;}img{display:block;max-width:100%;}
+:root{
+  --amber:#F5A623;--amber-d:#d98e1a;--red:#E8261A;
+  --bg:#111010;--bg2:#171513;--bg3:#1d1a17;--bg4:#231f1b;
+  --border:rgba(255,255,255,0.07);--muted:rgba(255,255,255,0.45);
+  --font-d:'Bebas Neue',sans-serif;--font-b:'Nunito',sans-serif;
+  --nav-h:72px;--r:14px;--t:0.25s ease;
+}
+
+/* ============================================================ NAVBAR */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  padding:0 52px;height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .3s,box-shadow .3s;
+}
+.navbar.scrolled{background:rgba(10,9,8,.95);backdrop-filter:blur(18px);box-shadow:0 2px 32px rgba(0,0,0,.55);}
+.nav-brand{font-family:var(--font-d);font-size:2rem;letter-spacing:.04em;color:#fff;}
+.nav-brand span{color:var(--amber);}
+.nav-links{display:flex;align-items:center;gap:34px;}
+.nav-links a{font-size:.9rem;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.02em;transition:color var(--t);position:relative;padding-bottom:3px;}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--amber);border-radius:2px;transform:scaleX(0);transition:transform var(--t);transform-origin:left;}
+.nav-links a:hover,.nav-links a.active{color:#fff;}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+.nav-icon-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;transition:background var(--t);color:#fff;position:relative;}
+.nav-icon-btn:hover{background:rgba(255,255,255,.14);}
+.nav-icon-btn svg{width:18px;height:18px;fill:currentColor;}
+.cart-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:.6rem;font-weight:800;min-width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
+.cart-badge.hidden{display:none;}
+.btn-nav-cta{background:var(--amber);color:#111;font-weight:800;font-size:.85rem;padding:10px 22px;border-radius:40px;letter-spacing:.02em;transition:background var(--t),transform var(--t),box-shadow var(--t);box-shadow:0 4px 18px rgba(245,166,35,.3);}
+.btn-nav-cta:hover{background:var(--amber-d);transform:translateY(-1px);box-shadow:0 6px 24px rgba(245,166,35,.45);}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:var(--t);}
+.mobile-drawer{position:fixed;top:var(--nav-h);left:0;right:0;z-index:999;background:rgba(12,10,8,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);padding:20px 24px 28px;transform:translateY(-110%);transition:transform .3s ease;}
+.mobile-drawer.open{transform:translateY(0);}
+.mobile-drawer a{display:block;padding:13px 0;font-size:1rem;font-weight:600;color:rgba(255,255,255,.75);border-bottom:1px solid var(--border);}
+.mobile-drawer a:last-child{border-bottom:none;}
+@media(max-width:820px){.navbar{padding:0 20px;}.nav-links{display:none;}.btn-nav-cta{display:none;}.hamburger{display:flex;}}
+
+/* ============================================================ HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--bg);}
+.hero::before{content:'';position:absolute;top:-10%;right:-5%;width:75%;height:110%;background:radial-gradient(ellipse 68% 78% at 65% 48%,rgba(175,38,8,.78) 0%,rgba(130,22,4,.5) 28%,rgba(75,10,0,.22) 58%,transparent 80%);pointer-events:none;z-index:0;}
+.hero::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.5;}
+.hero-particles{position:absolute;inset:0;pointer-events:none;z-index:3;overflow:hidden;}
+.hero-particle{position:absolute;border-radius:50%;opacity:0;animation:particleFly var(--dur,6s) var(--delay,0s) ease-in-out infinite;}
+@keyframes particleFly{0%{opacity:0;transform:translate(0,0) scale(.5);}20%{opacity:.65;}80%{opacity:.3;}100%{opacity:0;transform:translate(var(--tx,-30px),var(--ty,-80px)) scale(1.2);}}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;padding:0 52px;display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:100vh;gap:0;}
+/* LEFT */
+.hero-content{padding-top:var(--nav-h);padding-right:32px;}
+.hero-tagline{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.hero-tagline::before{content:'';width:22px;height:2px;background:var(--amber);border-radius:2px;}
+.hero-title{font-family:var(--font-d);font-size:clamp(3.2rem,5.6vw,5.8rem);line-height:1.0;letter-spacing:.02em;color:#fff;margin-bottom:22px;}
+.hero-title .accent{color:var(--amber);}
+.hero-desc{font-size:.95rem;color:var(--muted);line-height:1.78;max-width:400px;margin-bottom:38px;}
+.hero-cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.btn-order{background:var(--amber);color:#111;font-weight:800;font-size:.9rem;padding:15px 30px;border-radius:40px;display:flex;align-items:center;gap:10px;transition:background var(--t),transform var(--t),box-shadow var(--t);box-shadow:0 6px 28px rgba(245,166,35,.35);letter-spacing:.02em;}
+.btn-order:hover{background:var(--amber-d);transform:translateY(-2px);box-shadow:0 10px 36px rgba(245,166,35,.5);}
+.btn-order svg{width:18px;height:18px;fill:currentColor;}
+.btn-ghost{background:transparent;color:#fff;font-weight:700;font-size:.9rem;padding:14px 28px;border-radius:40px;border:1.5px solid rgba(255,255,255,.22);display:flex;align-items:center;gap:10px;transition:border-color var(--t),background var(--t);letter-spacing:.02em;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.05);}
+.btn-ghost svg{width:16px;height:16px;fill:currentColor;}
+.hero-delivery{margin-top:44px;display:flex;align-items:center;gap:16px;}
+.delivery-icon{width:52px;height:52px;border-radius:14px;flex-shrink:0;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2);display:flex;align-items:center;justify-content:center;}
+.delivery-icon svg{width:26px;height:26px;fill:var(--amber);}
+.delivery-text strong{display:block;font-size:.88rem;font-weight:800;color:#fff;margin-bottom:2px;}
+.delivery-text span{font-size:.75rem;color:var(--muted);}
+/* RIGHT — STATIC */
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;height:100vh;padding-top:var(--nav-h);}
+.burger-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(195,52,12,.38) 0%,transparent 68%);pointer-events:none;z-index:1;animation:glowPulse 5s ease-in-out infinite;}
+@keyframes glowPulse{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06);}}
+.hero-burger-img{position:relative;z-index:2;width:100%;max-width:560px;height:auto;object-fit:contain;filter:drop-shadow(0 40px 80px rgba(0,0,0,.85)) drop-shadow(0 0 60px rgba(190,55,15,.28));}
+.hero-chip{position:absolute;z-index:5;background:rgba(18,15,12,.88);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;animation:chipFloat 5s ease-in-out infinite;}
+.hero-chip.chip-top{top:23%;right:2%;animation-delay:-2.5s;}
+.hero-chip.chip-bot{bottom:23%;left:3%;animation-delay:-1s;}
+@keyframes chipFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+.chip-icon{width:36px;height:36px;border-radius:10px;background:var(--amber);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.chip-icon svg{width:18px;height:18px;fill:#111;}
+.chip-lbl{font-size:.66rem;color:var(--muted);margin-bottom:1px;}
+.chip-val{font-size:.88rem;font-weight:800;color:#fff;}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;padding:0 24px;text-align:center;}
+  .hero-content{padding-top:calc(var(--nav-h)+32px);padding-right:0;padding-bottom:24px;}
+  .hero-tagline{justify-content:center;}.hero-desc{margin:0 auto 36px;}.hero-cta{justify-content:center;}.hero-delivery{justify-content:center;}
+  .hero-visual{height:52vw;min-height:260px;padding-top:0;}.hero-burger-img{max-width:260px;}.burger-glow{width:280px;height:280px;}.hero-chip{display:none;}
+  .hero::before{width:100%;top:30%;height:70%;background:radial-gradient(ellipse 90% 60% at 50% 60%,rgba(175,38,8,.55) 0%,transparent 75%);}
+}
+@media(max-width:480px){.hero-inner{padding:0 16px;}.hero-title{font-size:2.8rem;}}
+
+/* ============================================================ SHARED UTILS */
+.section{padding:88px 0;}
+.container{width:100%;max-width:1240px;margin:0 auto;padding:0 52px;}
+@media(max-width:820px){.container{padding:0 20px;}}
+.eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.eyebrow::before{content:'';width:22px;height:2px;background:var(--amber);border-radius:2px;flex-shrink:0;}
+.sec-title{font-family:var(--font-d);font-size:clamp(2.2rem,4vw,3.8rem);letter-spacing:.02em;color:#fff;margin-bottom:14px;line-height:1.05;}
+.sec-title .a{color:var(--amber);}
+.sec-sub{font-size:.9rem;color:var(--muted);max-width:520px;line-height:1.7;}
+.header-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:52px;gap:20px;flex-wrap:wrap;}
+.header-center{text-align:center;margin-bottom:52px;}
+.header-center .eyebrow{justify-content:center;}
+.header-center .sec-sub{margin:0 auto;}
+
+/* ============================================================ STATS ROW */
+.stats-band{background:var(--bg);}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.stat-cell{padding:40px 24px;text-align:center;border-right:1px solid var(--border);transition:background var(--t);}
+.stat-cell:last-child{border-right:none;}
+.stat-cell:hover{background:rgba(245,166,35,.04);}
+.stat-num{font-family:var(--font-d);font-size:clamp(2.4rem,3.5vw,3.4rem);color:var(--amber);letter-spacing:.02em;}
+.stat-lbl{font-size:.76rem;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr 1fr;}.stat-cell:nth-child(2){border-right:none;}.stat-cell:nth-child(3){border-top:1px solid var(--border);}}
+
+/* ============================================================ CATEGORIES */
+.cat-section{background:var(--bg2);}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px;}
+.cat-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:28px 16px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;cursor:pointer;transition:transform var(--t),border-color var(--t),background var(--t),box-shadow var(--t);text-align:center;text-decoration:none;color:inherit;}
+.cat-card:hover,.cat-card.active{border-color:var(--amber);background:rgba(245,166,35,.07);transform:translateY(-5px);box-shadow:0 8px 32px rgba(245,166,35,.18);}
+.cat-icon{width:56px;height:56px;border-radius:12px;background:rgba(245,166,35,.1);display:flex;align-items:center;justify-content:center;transition:background var(--t);}
+.cat-card:hover .cat-icon,.cat-card.active .cat-icon{background:var(--amber);}
+.cat-icon svg{width:26px;height:26px;fill:var(--amber);transition:fill var(--t);}
+.cat-card:hover .cat-icon svg,.cat-card.active .cat-icon svg{fill:#111;}
+.cat-name{font-family:var(--font-d);font-size:1.1rem;letter-spacing:.03em;}
+.cat-count{font-size:.75rem;color:var(--muted);}
+
+/* ============================================================ MEAL CARDS */
+.meals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:24px;}
+.meal-card{background:var(--bg3);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:transform var(--t),border-color var(--t),box-shadow var(--t);}
+.meal-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.13);box-shadow:0 16px 48px rgba(0,0,0,.55);}
+.meal-img{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--bg4);}
+.meal-img img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease;}
+.meal-card:hover .meal-img img{transform:scale(1.06);}
+.meal-badge{position:absolute;top:12px;left:12px;font-size:.68rem;font-weight:800;padding:4px 10px;border-radius:40px;text-transform:uppercase;letter-spacing:.08em;}
+.b-best{background:var(--amber);color:#111;}.b-hot{background:var(--red);color:#fff;}.b-new{background:#22c55e;color:#fff;}
+.meal-body{padding:20px;}
+.meal-name{font-family:var(--font-d);font-size:1.25rem;margin-bottom:6px;letter-spacing:.02em;}
+.meal-desc{font-size:.8rem;color:var(--muted);margin-bottom:16px;line-height:1.55;}
+.meal-footer{display:flex;align-items:center;justify-content:space-between;}
+.meal-price{font-family:var(--font-d);font-size:1.5rem;color:var(--amber);letter-spacing:.02em;}
+.add-btn{width:40px;height:40px;border-radius:50%;background:var(--amber);display:flex;align-items:center;justify-content:center;transition:background var(--t),transform var(--t);box-shadow:0 4px 16px rgba(245,166,35,.35);}
+.add-btn:hover{background:var(--amber-d);transform:scale(1.12);}
+.add-btn svg{width:18px;height:18px;fill:#111;}
+
+/* ============================================================ PROMO */
+.promo-section{position:relative;overflow:hidden;background:linear-gradient(135deg,#1a1200 0%,#2c1a00 40%,#1f0d00 100%);padding:88px 0;}
+.promo-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 120% at 50% 50%,rgba(245,166,35,.11) 0%,transparent 65%);}
+.promo-section::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(245,166,35,.11) 1px,transparent 1px);background-size:30px 30px;opacity:.55;}
+.promo-inner{position:relative;z-index:2;text-align:center;max-width:620px;margin:0 auto;}
+.promo-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.3);border-radius:40px;padding:6px 18px;margin-bottom:22px;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);}
+.promo-dot{width:7px;height:7px;background:var(--amber);border-radius:50%;animation:blink 1.4s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.promo-title{font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4.5rem);color:#fff;margin-bottom:14px;line-height:1.05;}
+.promo-title .a{color:var(--amber);}
+.promo-sub{font-size:.95rem;color:rgba(255,255,255,.6);margin-bottom:32px;line-height:1.7;}
+.promo-btn{display:inline-flex;align-items:center;gap:10px;background:var(--amber);color:#111;font-weight:800;font-size:.95rem;padding:16px 36px;border-radius:40px;box-shadow:0 8px 32px rgba(245,166,35,.4);transition:background var(--t),transform var(--t),box-shadow var(--t);letter-spacing:.03em;}
+.promo-btn:hover{background:var(--amber-d);transform:translateY(-2px);box-shadow:0 12px 40px rgba(245,166,35,.55);}
+.promo-btn svg{width:18px;height:18px;fill:currentColor;}
+
+/* ============================================================ FEATURED */
+.featured-section{background:var(--bg2);}
+.feat-grid{display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:auto auto;gap:20px;}
+.feat-card{position:relative;border-radius:18px;overflow:hidden;cursor:pointer;min-height:260px;display:flex;align-items:flex-end;border:1px solid var(--border);transition:transform var(--t),box-shadow var(--t);}
+.feat-card:hover{transform:translateY(-4px);box-shadow:0 20px 56px rgba(0,0,0,.6);}
+.feat-card.large{grid-row:1/3;min-height:560px;}
+.feat-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.feat-card:hover img{transform:scale(1.05);}
+.feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,5,2,.92) 0%,rgba(8,5,2,.4) 45%,transparent 70%);}
+.feat-body{position:relative;z-index:2;padding:24px;width:100%;}
+.feat-tag{display:inline-block;background:var(--amber);color:#111;font-size:.68rem;font-weight:800;padding:4px 12px;border-radius:40px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.feat-name{font-family:var(--font-d);font-size:1.65rem;color:#fff;margin-bottom:6px;line-height:1.1;}
+.feat-card.large .feat-name{font-size:2.4rem;}
+.feat-desc{font-size:.82rem;color:rgba(255,255,255,.6);margin-bottom:14px;line-height:1.5;}
+.feat-price{font-family:var(--font-d);font-size:2rem;color:var(--amber);}
+.feat-card.large .feat-price{font-size:2.8rem;}
+@media(max-width:820px){.feat-grid{grid-template-columns:1fr;}.feat-card.large{grid-row:unset;min-height:320px;}}
+
+/* ============================================================ TESTIMONIALS */
+.testi-section{background:var(--bg);}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+.testi-card{background:var(--bg3);border:1px solid var(--border);border-radius:18px;padding:30px;position:relative;overflow:hidden;transition:border-color var(--t),transform var(--t);}
+.testi-card:hover{border-color:rgba(245,166,35,.25);transform:translateY(-3px);}
+.testi-q{position:absolute;top:14px;right:18px;font-family:var(--font-d);font-size:6rem;line-height:1;color:rgba(245,166,35,.1);}
+.testi-stars{display:flex;gap:4px;margin-bottom:16px;}
+.testi-stars svg{width:16px;height:16px;fill:var(--amber);}
+.testi-text{font-size:.9rem;color:rgba(255,255,255,.65);margin-bottom:22px;line-height:1.72;}
+.testi-author{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--amber);}
+.testi-name{font-weight:800;font-size:.9rem;color:#fff;}
+.testi-loc{font-size:.75rem;color:var(--muted);}
+
+/* ============================================================ FOOTER */
+.footer{background:var(--bg2);border-top:1px solid var(--border);padding:64px 0 0;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid var(--border);margin-bottom:28px;}
+.footer-logo{font-family:var(--font-d);font-size:2rem;letter-spacing:.04em;color:#fff;display:inline-block;margin-bottom:16px;}
+.footer-logo span{color:var(--amber);}
+.footer-desc{font-size:.86rem;color:var(--muted);line-height:1.72;max-width:280px;margin-bottom:22px;}
+.social-row{display:flex;gap:10px;}
+.social-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:border-color var(--t),background var(--t);}
+.social-btn:hover{border-color:var(--amber);background:rgba(245,166,35,.1);}
+.social-btn svg{width:16px;height:16px;fill:var(--muted);transition:fill var(--t);}
+.social-btn:hover svg{fill:var(--amber);}
+.col-title{font-family:var(--font-d);font-size:1.1rem;letter-spacing:.05em;margin-bottom:18px;color:#fff;}
+.col-links{display:flex;flex-direction:column;gap:10px;}
+.col-links a{font-size:.86rem;color:var(--muted);transition:color var(--t);}
+.col-links a:hover{color:var(--amber);}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-bottom:28px;font-size:.8rem;color:var(--muted);flex-wrap:wrap;gap:8px;}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr;}.footer-brand{grid-column:1/-1;}}
+@media(max-width:580px){.footer-grid{grid-template-columns:1fr;}.footer-bottom{flex-direction:column;text-align:center;}}
+
+/* ============================================================ SCROLL TOP + TOAST */
+.scroll-top{position:fixed;bottom:28px;left:28px;z-index:500;width:46px;height:46px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity var(--t),background var(--t),transform var(--t);}
+.scroll-top.visible{opacity:1;pointer-events:all;}
+.scroll-top:hover{background:var(--amber);border-color:var(--amber);transform:translateY(-2px);}
+.scroll-top svg{width:18px;height:18px;fill:#fff;}
+.scroll-top:hover svg{fill:#111;}
+.toast-wrap{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;gap:10px;}
+.toast{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;min-width:280px;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:toastIn .3s ease;}
+.toast.success{border-left:3px solid #22c55e;}.toast.error{border-left:3px solid var(--red);}.toast.info{border-left:3px solid var(--amber);}
+.toast .t-icon svg{width:20px;height:20px;}
+.toast.success .t-icon svg{fill:#22c55e;}.toast.error .t-icon svg{fill:var(--red);}.toast.info .t-icon svg{fill:var(--amber);}
+.toast .t-text{flex:1;font-size:.86rem;font-weight:700;}
+.toast .t-close{opacity:.5;cursor:pointer;padding:4px;}.toast .t-close:hover{opacity:1;}
+.toast .t-close svg{width:14px;height:14px;fill:#fff;}
+@keyframes toastIn{from{opacity:0;transform:translateX(32px);}to{opacity:1;transform:translateX(0);}}
+.toast.out{animation:toastOut .3s ease forwards;}
+@keyframes toastOut{to{opacity:0;transform:translateX(32px);}}
+
+/* ============================================================ REVEAL ANIMATIONS */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+.reveal-l{opacity:0;transform:translateX(-28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal-l.vis{opacity:1;transform:translateX(0);}
+.reveal-r{opacity:0;transform:translateX(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal-r.vis{opacity:1;transform:translateX(0);}
+  </style>
+</head>
+<body data-page="home">
+
+<!-- ============================================================ NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-brand">Grill<span>House</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="#about">About Us</a>
+    <a href="menu.html">Menu</a>
+    <a href="#contact">Contact Us</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-icon-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    </button>
+    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+      <span class="cart-badge hidden" id="cart-badge-nav">0</span>
+    </a>
+    <a href="menu.html" class="btn-nav-cta">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html">Home</a>
+  <a href="#about">About Us</a>
+  <a href="menu.html">Menu</a>
+  <a href="#contact">Contact Us</a>
+  <a href="cart.html">Cart</a>
+  <a href="orders.html">My Orders</a>
+  <a href="admin.html" style="color:var(--amber)">Admin</a>
+</div>
+
+<!-- ============================================================ HERO -->
+<section class="hero" id="home">
+  <div class="hero-particles" id="hero-particles"></div>
+  <div class="hero-inner">
+    <!-- LEFT -->
+    <div class="hero-content" id="hero-content">
+      <p class="hero-tagline">Affordable and very filling</p>
+      <h1 class="hero-title">
+        Hot, fresh<br>
+        burgers made<br>
+        <span class="accent">for any time</span><br>
+        cravings
+      </h1>
+      <p class="hero-desc">Made with fresh ingredients, juicy patties, and soft buns, our burgers are grilled to perfection and served hot. Every bite is packed with rich flavour that keeps you coming back for more.</p>
+      <div class="hero-cta">
+        <a href="menu.html" class="btn-order">
+          Order now
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        </a>
+        <a href="menu.html" class="btn-ghost">
+          See our menu
+          <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </a>
+      </div>
+      <div class="hero-delivery">
+        <div class="delivery-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        </div>
+        <div class="delivery-text">
+          <strong>We offer 24 hour delivery service</strong>
+          <span>Johannesburg &amp; Gauteng — Cash on Delivery</span>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT — static burger image -->
+    <div class="hero-visual" id="hero-visual">
+      <div class="burger-glow"></div>
+      <!--
+        Place your burger PNG (transparent background) at:
+        assets/images/burger-hero.png
+        The fallback Unsplash photo shows until then.
+      -->
+      <img
+        src="assets/images/ChatGPT Image May 7, 2026, 12_28_33 PM.png"
+        alt="GrillHouse Signature Burger"
+        class="hero-burger-img"
+        id="hero-burger"
+        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=700&q=80';this.style.borderRadius='20px';"
+      >
+      <!-- Info chips -->
+      <div class="hero-chip chip-top">
+        <div class="chip-icon"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+        <div><div class="chip-lbl">Rating</div><div class="chip-val">4.9 / 5.0</div></div>
+      </div>
+      <div class="hero-chip chip-bot">
+        <div class="chip-icon"><svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></div>
+        <div><div class="chip-lbl">Delivery time</div><div class="chip-val">25 – 35 min</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STATS BAND -->
+<div class="stats-band">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-cell reveal"><div class="stat-num">4.9<span style="font-size:.45em;opacity:.5">★</span></div><div class="stat-lbl">Average Rating</div></div>
+      <div class="stat-cell reveal" style="transition-delay:.08s"><div class="stat-num">12K+</div><div class="stat-lbl">Happy Customers</div></div>
+      <div class="stat-cell reveal" style="transition-delay:.16s"><div class="stat-num">30<span style="font-size:.42em;font-family:var(--font-b);opacity:.6">min</span></div><div class="stat-lbl">Avg Delivery</div></div>
+      <div class="stat-cell reveal" style="transition-delay:.24s"><div class="stat-num">24/7</div><div class="stat-lbl">Always Open</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ CATEGORIES -->
+<section class="section cat-section" id="categories">
+  <div class="container">
+    <div class="header-center reveal">
+      <div class="eyebrow" style="justify-content:center">What are you craving?</div>
+      <h2 class="sec-title">Browse <span class="a">Categories</span></h2>
+      <p class="sec-sub">From juicy burgers to crispy sides — we've got something for everyone.</p>
+    </div>
+    <div class="cat-grid" id="home-categories"><!-- JS --></div>
+  </div>
+</section>
+
+<!-- ============================================================ BESTSELLERS -->
+<section class="section" id="bestsellers" style="background:var(--bg)">
+  <div class="container">
+    <div class="header-row">
+      <div class="reveal-l">
+        <div class="eyebrow">Customer Favourites</div>
+        <h2 class="sec-title">Best <span class="a">Sellers</span></h2>
+        <p class="sec-sub">The meals our customers keep coming back for. Try one — we dare you.</p>
+      </div>
+      <a href="menu.html" class="reveal-r" style="display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(245,166,35,.35);color:var(--amber);font-weight:700;font-size:.88rem;padding:11px 22px;border-radius:40px;transition:background var(--t),border-color var(--t);letter-spacing:.03em;white-space:nowrap;transition-delay:.1s">
+        View Full Menu
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+      </a>
+    </div>
+    <div class="meals-grid" id="bestsellers-grid"><!-- JS --></div>
+  </div>
+</section>
+
+<!-- ============================================================ PROMO BANNER -->
+<section class="promo-section">
+  <div class="container">
+    <div class="promo-inner reveal">
+      <div class="promo-tag"><span class="promo-dot"></span>Limited Time Offer</div>
+      <h2 class="promo-title">Family Feast<br><span class="a">Only R420</span></h2>
+      <p class="promo-sub">4 burgers of your choice + 2 large fries + 4 drinks. Feed the whole crew without breaking the bank.</p>
+      <a href="menu.html?cat=cat-5" class="promo-btn">
+        Order the Feast
+        <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FEATURED -->
+<section class="section featured-section" id="featured">
+  <div class="container">
+    <div class="header-center reveal">
+      <div class="eyebrow" style="justify-content:center">On the Spotlight</div>
+      <h2 class="sec-title">Chef's <span class="a">Picks</span></h2>
+    </div>
+    <div class="feat-grid" id="featured-container"><!-- JS --></div>
+  </div>
+</section>
+
+<!-- ============================================================ TESTIMONIALS -->
+<section class="section testi-section" id="testimonials">
+  <div class="container">
+    <div class="header-center reveal">
+      <div class="eyebrow" style="justify-content:center">Real Reviews</div>
+      <h2 class="sec-title">What People <span class="a">Say</span></h2>
+    </div>
+    <div class="testi-grid">
+
+      <div class="testi-card reveal" style="transition-delay:.04s">
+        <div class="testi-q">"</div>
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <p class="testi-text">The Smoky BBQ Burger is genuinely one of the best burgers I've had in Joburg. Delivered in 28 minutes and still piping hot. Will definitely order again!</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/100?img=11" alt="Sipho M." class="testi-avatar">
+          <div><div class="testi-name">Sipho M.</div><div class="testi-loc">Sandton, Johannesburg</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal" style="transition-delay:.12s">
+        <div class="testi-q">"</div>
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <p class="testi-text">Family Feast is insane value! Four burgers for under R500 and they were all perfect. GrillHouse is now our Friday night go-to without question.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/100?img=47" alt="Lerato K." class="testi-avatar">
+          <div><div class="testi-name">Lerato K.</div><div class="testi-loc">Soweto, Johannesburg</div></div>
+        </div>
+      </div>
+
+      <div class="testi-card reveal" style="transition-delay:.2s">
+        <div class="testi-q">"</div>
+        <div class="testi-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <p class="testi-text">I ordered the Peri-Peri Chicken for the first time and I'm obsessed. The spice level is perfect and the portion is massive. Highly recommended!</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/100?img=32" alt="Thabo N." class="testi-avatar">
+          <div><div class="testi-name">Thabo N.</div><div class="testi-loc">Pretoria, Gauteng</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer class="footer" id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">Grill<span>House</span></a>
+        <p class="footer-desc">Flame-grilled perfection delivered to your door across Johannesburg &amp; Gauteng. Quality ingredients, bold flavours — every single time.</p>
+        <div class="social-row">
+          <a href="#" class="social-btn" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2"/></svg></a>
+          <a href="#" class="social-btn" aria-label="X / Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="#" class="social-btn" aria-label="TikTok"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.77 0 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 100 12.68 6.34 6.34 0 006.33-6.34V8.69a8.19 8.19 0 004.79 1.54V6.78a4.85 4.85 0 01-1.02-.09z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="col-title">Quick Links</div>
+        <div class="col-links">
+          <a href="index.html">Home</a>
+          <a href="menu.html">Menu</a>
+          <a href="cart.html">Cart</a>
+          <a href="orders.html">My Orders</a>
+          <a href="admin.html">Admin Panel</a>
+        </div>
+      </div>
+      <div id="about">
+        <div class="col-title">Categories</div>
+        <div class="col-links">
+          <a href="menu.html?cat=cat-1">Burgers</a>
+          <a href="menu.html?cat=cat-2">Chicken</a>
+          <a href="menu.html?cat=cat-3">Sides</a>
+          <a href="menu.html?cat=cat-4">Drinks</a>
+          <a href="menu.html?cat=cat-5">Combos</a>
+          <a href="menu.html?cat=cat-6">Desserts</a>
+        </div>
+      </div>
+      <div>
+        <div class="col-title">Contact Us</div>
+        <div class="col-links">
+          <a href="tel:+27110000000">+27 11 000 0000</a>
+          <a href="mailto:hello@grillhouse.co.za">hello@grillhouse.co.za</a>
+          <a href="#">Sandton, Johannesburg</a>
+          <a href="#">Mon–Sun: 10am – 10pm</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 GrillHouse. All rights reserved.</span>
+      <span>Cash on Delivery only &mdash; Johannesburg &amp; Gauteng</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll top -->
+<button class="scroll-top" id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+
+<!-- Toast -->
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="utils/helpers.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/cart.js"></script>
+<script>
+/* ============================================================
+   HOME PAGE SCRIPT
+============================================================ */
+const CAT_ICONS = {
+  burger:  `<svg viewBox="0 0 24 24"><path d="M4 15h16a1 1 0 010 2H4a1 1 0 010-2zm0-4h16a1 1 0 010 2H4a1 1 0 010-2zm8-9a8 8 0 018 8H4a8 8 0 018-8zm0 2A6 6 0 006.08 10h11.84A6 6 0 0012 4zM3 19h18v1a2 2 0 01-2 2H5a2 2 0 01-2-2v-1z"/></svg>`,
+  chicken: `<svg viewBox="0 0 24 24"><path d="M21 7c0-2.21-1.79-4-4-4-1.08 0-2.06.43-2.78 1.13L7 10.27V13h2.73l7.14-7.22C17.37 6.33 18 7.13 18 8H21V7zM2 19l6.5-6.5 1.5 1.5L4 20H2v-1zm19 0v1h-2l-3-3 1.5-1.5L19 17v2zM5 12l1.5 1.5-3 3L2 15l3-3z"/></svg>`,
+  sides:   `<svg viewBox="0 0 24 24"><path d="M18 3H6L3 9h18L18 3zM2 11v2h20v-2H2zm2 4v6h16v-6H4zm2 2h12v2H6v-2z"/></svg>`,
+  drink:   `<svg viewBox="0 0 24 24"><path d="M3 2l2.01 18.09C5.1 21.17 5.97 22 7.06 22H16.94c1.08 0 1.95-.83 2.04-1.91L21 2H3zm14.8 2l-.54 4.86A3.99 3.99 0 0114 7H10a3.99 3.99 0 01-3.26-1.14L6.2 4H17.8z"/></svg>`,
+  combo:   `<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>`,
+  dessert: `<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 019 9c0 3.88-2.47 7.21-6 8.46V22H9v-1.54C5.47 19.21 3 15.88 3 12a9 9 0 019-9zm0 2a7 7 0 00-7 7c0 3.07 1.99 5.7 4.8 6.63L11 18.8V20h2v-1.2l1.2-.17C17.01 17.7 19 15.07 19 12a7 7 0 00-7-7z"/></svg>`,
+  default: `<svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>`,
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  Cart.init();
+  initNavbar();
+  initScrollTop();
+  spawnParticles();
+  initReveal();
+  heroEntrance();
+  renderCategories();
+  renderBestsellers();
+  renderFeatured();
+});
+
+/* Navbar */
+function initNavbar() {
+  const nav = document.getElementById('navbar');
+  const btn = document.getElementById('hamburger');
+  const drw = document.getElementById('mobile-drawer');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 30));
+  btn.addEventListener('click', () => {
+    const open = drw.classList.toggle('open');
+    const s = btn.querySelectorAll('span');
+    if (open) { s[0].style.transform='rotate(45deg) translate(5px,5px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+    else { s.forEach(x=>{x.style.transform='';x.style.opacity='';}); }
+  });
+  drw.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    drw.classList.remove('open');
+    btn.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});
+  }));
+}
+
+/* Scroll top */
+function initScrollTop() {
+  const b = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => b.classList.toggle('visible', window.scrollY > 400));
+  b.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+/* Particles */
+function spawnParticles() {
+  const c = document.getElementById('hero-particles');
+  if (!c) return;
+  const cols = ['#F5A623','#E8261A','#fff','#ff6b35','#ffd700'];
+  for (let i=0;i<22;i++) {
+    const p=document.createElement('div'); p.className='hero-particle';
+    const sz=(Math.random()*6+2).toFixed(1);
+    const col=cols[Math.floor(Math.random()*cols.length)];
+    const dur=(Math.random()*5+4).toFixed(1)+'s';
+    const dly=(Math.random()*-10).toFixed(1)+'s';
+    const tx=(Math.random()*120-60).toFixed(0)+'px';
+    const ty=(Math.random()*-130-40).toFixed(0)+'px';
+    const lft=(38+Math.random()*57).toFixed(1)+'%';
+    const top=(15+Math.random()*65).toFixed(1)+'%';
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${col};left:${lft};top:${top};--dur:${dur};--delay:${dly};--tx:${tx};--ty:${ty};`;
+    c.appendChild(p);
+  }
+}
+
+/* Scroll reveal */
+function initReveal() {
+  const els = document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});
+  },{threshold:.1});
+  els.forEach(el=>obs.observe(el));
+}
+
+/* Hero entrance */
+function heroEntrance() {
+  const c=document.getElementById('hero-content');
+  const v=document.getElementById('hero-visual');
+  if(c){c.style.cssText+='opacity:0;transform:translateX(-28px);transition:opacity .8s ease .05s,transform .8s ease .05s';requestAnimationFrame(()=>requestAnimationFrame(()=>{c.style.opacity='1';c.style.transform='translateX(0)';}));}
+  if(v){v.style.cssText+='opacity:0;transform:translateX(28px);transition:opacity .85s ease .2s,transform .85s ease .2s';requestAnimationFrame(()=>requestAnimationFrame(()=>{v.style.opacity='1';v.style.transform='translateX(0)';}));}
+}
+
+/* Categories */
+function renderCategories() {
+  const g=document.getElementById('home-categories');
+  if(!g) return;
+  const cats=Storage.getCategories(), meals=Storage.getMeals();
+  g.innerHTML=cats.map((cat,i)=>{
+    const count=meals.filter(m=>m.category===cat.id).length;
+    const icon=CAT_ICONS[cat.icon]||CAT_ICONS.default;
+    return `<a class="cat-card reveal" style="transition-delay:${i*.07}s" href="menu.html?cat=${cat.id}"><div class="cat-icon">${icon}</div><div class="cat-name">${cat.name}</div><div class="cat-count">${count} item${count!==1?'s':''}</div></a>`;
+  }).join('');
+  setTimeout(()=>g.querySelectorAll('.reveal').forEach(el=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');o.unobserve(x.target);}});},{threshold:.1});o.observe(el);}),60);
+}
+
+/* Meal card */
+function mealCard(m) {
+  const bm={bestseller:'Best Seller',hot:'Hot',new:'New'};
+  const bc={bestseller:'b-best',hot:'b-hot',new:'b-new'};
+  return `<div class="meal-card reveal"><div class="meal-img"><img src="${m.image}" alt="${m.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=70'">${m.badge?`<span class="meal-badge ${bc[m.badge]||''}">${bm[m.badge]||m.badge}</span>`:''}</div><div class="meal-body"><div class="meal-name">${m.name}</div><div class="meal-desc">${m.description}</div><div class="meal-footer"><div class="meal-price">R${Number(m.price).toFixed(2)}</div><button class="add-btn" data-id="${m.id}" aria-label="Add to cart"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button></div></div></div>`;
+}
+
+function bindAddBtns(container) {
+  container.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(Cart.add(btn.dataset.id)){showToast('Added to cart!','success');btn.style.transform='scale(1.35)';setTimeout(()=>btn.style.transform='',300);}
+    });
+  });
+}
+
+/* Bestsellers */
+function renderBestsellers() {
+  const g=document.getElementById('bestsellers-grid'); if(!g) return;
+  const meals=Storage.getMeals().filter(m=>m.badge==='bestseller'||m.badge==='hot').slice(0,4);
+  g.innerHTML=meals.map(mealCard).join('');
+  bindAddBtns(g);
+  setTimeout(()=>g.querySelectorAll('.reveal').forEach(el=>{const o=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');o.unobserve(x.target);}});},{threshold:.1});o.observe(el);}),60);
+}
+
+/* Featured */
+function renderFeatured() {
+  const c=document.getElementById('featured-container'); if(!c) return;
+  const meals=Storage.getMeals().slice(0,3);
+  if(!meals.length) return;
+  const [m0,m1,m2]=meals;
+  const tm={bestseller:'Best Seller',hot:'Hot',new:'New',''  :'Featured'};
+  const fc=(m,large=false)=>`<div class="feat-card${large?' large':''}" onclick="addFeat('${m.id}')"><img src="${m.image}" alt="${m.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=70'"><div class="feat-overlay"></div><div class="feat-body"><span class="feat-tag">${tm[m.badge]||'Featured'}</span><div class="feat-name">${m.name}</div><div class="feat-desc">${m.description}</div><div class="feat-price">R${Number(m.price).toFixed(2)}</div></div></div>`;
+  c.innerHTML=`${fc(m0,true)}<div>${m1?fc(m1):''}${m2?`<div style="margin-top:20px">${fc(m2)}</div>`:''}</div>`;
+}
+function addFeat(id){if(Cart.add(id))showToast('Added to cart!','success');}
+
+/* Toast */
+function showToast(msg,type='success'){
+  const c=document.getElementById('toast-container');
+  const t=document.createElement('div');t.className=`toast ${type}`;
+  const icons={success:`<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`,error:`<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>`,info:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`};
+  t.innerHTML=`<span class="t-icon">${icons[type]||icons.info}</span><span class="t-text">${msg}</span><button class="t-close" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300);},3200);
+}
+</script>
+</body>
+</html>

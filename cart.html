@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart — GrillHouse</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="cart">
+
+<!-- NAVBAR -->
+<nav class="navbar solid" id="navbar">
+  <a href="index.html" class="nav-brand">Grill<span>House</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html" class="active">Cart</a>
+    <a href="orders.html">My Orders</a>
+  </div>
+  <div class="nav-actions">
+    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+      <span class="cart-badge hidden" id="cart-badge-nav">0</span>
+    </a>
+    <a href="menu.html" class="btn-nav-cta">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="cart.html">Cart</a>
+  <a href="orders.html">My Orders</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="page-eyebrow">Your Selections</div>
+    <h1 class="page-title">Your <span>Cart</span></h1>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <a href="menu.html">Menu</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <span>Cart</span>
+    </nav>
+  </div>
+</div>
+
+<!-- CART CONTENT -->
+<div class="cart-page-wrap">
+  <div class="container">
+    <div id="cart-root"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-compact">
+  <div class="container">
+    <div class="footer-compact-inner">
+      <a href="index.html" class="footer-logo">Grill<span>House</span></a>
+      <span class="footer-copy">&copy; 2025 GrillHouse. Cash on Delivery — Johannesburg &amp; Gauteng</span>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="utils/helpers.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/cart.js"></script>
+<script>
+const DELIVERY = 35;
+
+document.addEventListener('DOMContentLoaded', () => {
+  Cart.init();
+  initNavbar();
+  initScrollTop();
+  renderCart();
+});
+
+function initNavbar() {
+  const btn = document.getElementById('hamburger');
+  const drw = document.getElementById('mobile-drawer');
+  btn.addEventListener('click', () => {
+    const open = drw.classList.toggle('open');
+    const s = btn.querySelectorAll('span');
+    if (open) { s[0].style.transform='rotate(45deg) translate(5px,5px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+    else { s.forEach(x=>{x.style.transform='';x.style.opacity='';}); }
+  });
+}
+
+function initScrollTop() {
+  const b = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => b.classList.toggle('visible', window.scrollY > 300));
+  b.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+function renderCart() {
+  const root  = document.getElementById('cart-root');
+  const items = Cart.items;
+
+  if (!items.length) {
+    root.innerHTML = `
+      <div class="cart-empty">
+        <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added anything yet. Browse our menu and order something delicious!</p>
+        <a href="menu.html" class="btn btn-primary">Browse Menu</a>
+      </div>`;
+    return;
+  }
+
+  const subtotal = Cart.getTotal();
+  const total    = subtotal + DELIVERY;
+
+  root.innerHTML = `
+    <div class="cart-layout">
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+          <h3 style="font-family:var(--font-d);font-size:1.5rem;letter-spacing:.02em">${items.length} Item${items.length!==1?'s':''} in Cart</h3>
+          <button onclick="clearAll()" style="font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color .25s" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--muted)'">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+            Clear All
+          </button>
+        </div>
+        ${items.map(item => `
+          <div class="cart-item" id="ci-${item.id}">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&q=60'">
+            <div>
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-unit">R${Number(item.price).toFixed(2)} each</div>
+              <div class="qty-controls">
+                <button class="qty-btn" onclick="changeQty('${item.id}',-1)" aria-label="Decrease">
+                  <svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>
+                </button>
+                <span class="qty-value" id="qty-${item.id}">${item.qty}</span>
+                <button class="qty-btn" onclick="changeQty('${item.id}',1)" aria-label="Increase">
+                  <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="cart-item-total">
+              <div class="cart-item-price-total">R${Number(item.price*item.qty).toFixed(2)}</div>
+              <button class="remove-btn" onclick="removeItem('${item.id}')">
+                <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                Remove
+              </button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="summary-panel">
+        <h3>Order Summary</h3>
+        <div class="summary-line"><span>Subtotal (${Cart.getCount()} items)</span><span>R${subtotal.toFixed(2)}</span></div>
+        <div class="summary-line"><span>Delivery Fee</span><span>R${DELIVERY.toFixed(2)}</span></div>
+        <div class="summary-total">
+          <span class="label">Total</span>
+          <span class="amount">R${total.toFixed(2)}</span>
+        </div>
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+          <a href="checkout.html" class="btn btn-primary btn-full">
+            Proceed to Checkout
+            <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+          </a>
+          <a href="menu.html" class="btn btn-ghost btn-full">Continue Shopping</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+function changeQty(id, delta) {
+  Cart.updateQty(id, delta);
+  renderCart();
+}
+
+function removeItem(id) {
+  Cart.remove(id);
+  renderCart();
+  showToast('Item removed', 'info');
+}
+
+function clearAll() {
+  if (confirm('Clear all items from your cart?')) {
+    Cart.clear();
+    renderCart();
+    showToast('Cart cleared', 'info');
+  }
+}
+
+function showToast(msg, type='success') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div'); t.className = `toast ${type}`;
+  const icons = { success:`<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`, error:`<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>`, info:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>` };
+  t.innerHTML = `<span class="t-icon">${icons[type]||icons.info}</span><span class="t-text">${msg}</span><button class="t-close" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300);},3200);
+}
+</script>
+</body>
+</html>

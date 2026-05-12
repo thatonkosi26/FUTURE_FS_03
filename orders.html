@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders — GrillHouse</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="orders">
+
+<!-- NAVBAR -->
+<nav class="navbar solid" id="navbar">
+  <a href="index.html" class="nav-brand">Grill<span>House</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart</a>
+    <a href="orders.html" class="active">My Orders</a>
+  </div>
+  <div class="nav-actions">
+    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+      <span class="cart-badge hidden" id="cart-badge-nav">0</span>
+    </a>
+    <a href="menu.html" class="btn-nav-cta">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html">Home</a><a href="menu.html">Menu</a>
+  <a href="cart.html">Cart</a><a href="orders.html">My Orders</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="page-eyebrow">Order History</div>
+    <h1 class="page-title">My <span>Orders</span></h1>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <span>My Orders</span>
+    </nav>
+  </div>
+</div>
+
+<!-- ORDERS -->
+<div class="orders-page-wrap">
+  <div class="container" id="orders-container">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+<div class="overlay" id="modal-overlay">
+  <div class="modal" style="max-width:560px">
+    <div class="modal-header">
+      <h3>Order Details</h3>
+      <button class="modal-close" onclick="closeModal()">
+        <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </div>
+    <div id="modal-body"><!-- JS --></div>
+    <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" id="modal-print-btn">
+        <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+        Print Receipt
+      </button>
+      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-compact">
+  <div class="container">
+    <div class="footer-compact-inner">
+      <a href="index.html" class="footer-logo">Grill<span>House</span></a>
+      <span class="footer-copy">&copy; 2025 GrillHouse. Cash on Delivery — Johannesburg &amp; Gauteng</span>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="utils/helpers.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/cart.js"></script>
+<script>
+let _modalOrder = null;
+
+const STATUS_LABEL = { pending:'Pending', preparing:'Preparing', out_for_delivery:'Out for Delivery', delivered:'Delivered' };
+const STATUS_CLS   = { pending:'status-pending', preparing:'status-preparing', out_for_delivery:'status-out_for_delivery', delivered:'status-delivered' };
+
+document.addEventListener('DOMContentLoaded', () => {
+  Cart.init();
+  initNavbar();
+  initScrollTop();
+  renderOrders();
+});
+
+function initNavbar() {
+  const btn = document.getElementById('hamburger');
+  const drw = document.getElementById('mobile-drawer');
+  btn.addEventListener('click', () => {
+    const open = drw.classList.toggle('open');
+    const s = btn.querySelectorAll('span');
+    if (open) { s[0].style.transform='rotate(45deg) translate(5px,5px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+    else { s.forEach(x=>{x.style.transform='';x.style.opacity='';}); }
+  });
+}
+
+function initScrollTop() {
+  const b = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => b.classList.toggle('visible', window.scrollY > 300));
+  b.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+function fmtDate(iso) {
+  return new Date(iso).toLocaleString('en-ZA',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+}
+
+function renderOrders() {
+  const orders  = Storage.getOrders();
+  const container = document.getElementById('orders-container');
+
+  if (!orders.length) {
+    container.innerHTML = `
+      <div class="orders-empty">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+        <h3>No Orders Yet</h3>
+        <p>Your order history will appear here once you place an order.</p>
+        <a href="menu.html" class="btn btn-primary">Start Ordering</a>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = orders.map(o => `
+    <div class="order-card">
+      <div class="order-card-head">
+        <div>
+          <div class="order-id-badge">${o.id}</div>
+          <div class="order-meta">
+            <span>${fmtDate(o.createdAt)}</span>
+            <span>${o.items.length} item${o.items.length!==1?'s':''}</span>
+            <span>Cash on Delivery</span>
+          </div>
+        </div>
+        <span class="order-status-badge ${STATUS_CLS[o.status]||''}">${STATUS_LABEL[o.status]||o.status}</span>
+      </div>
+      <div class="order-chips">
+        ${o.items.map(i=>`<span class="order-chip">${i.name} x${i.qty}</span>`).join('')}
+      </div>
+      <div class="order-card-foot">
+        <div class="order-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openModal('${o.id}')">
+            <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            View Details
+          </button>
+          <a href="confirmation.html?order=${o.id}" class="btn btn-outline btn-sm">
+            <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+            Receipt
+          </a>
+        </div>
+        <div class="order-total-amount">R${o.total.toFixed(2)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(orderId) {
+  const o = Storage.getOrderById(orderId);
+  if (!o) return;
+  _modalOrder = o;
+
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
+      ${[['Order ID',o.id],['Status',STATUS_LABEL[o.status]||o.status],['Date',fmtDate(o.createdAt)],['Payment','Cash on Delivery']].map(([k,v])=>`
+        <div style="background:var(--bg4);border-radius:12px;padding:14px">
+          <div style="font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">${k}</div>
+          <div style="font-size:.88rem;font-weight:600">${v}</div>
+        </div>`).join('')}
+      <div style="background:var(--bg4);border-radius:12px;padding:14px;grid-column:1/-1">
+        <div style="font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">Address</div>
+        <div style="font-size:.88rem;font-weight:600">${o.customer.address}</div>
+      </div>
+    </div>
+    <h4 style="font-family:var(--font-d);font-size:1.1rem;margin-bottom:12px">Items Ordered</h4>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
+      ${o.items.map(item=>`
+        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg4);border-radius:12px">
+          <img src="${item.image}" alt="${item.name}" style="width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--bg3)" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=100'">
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:.9rem">${item.name}</div>
+            <div style="font-size:.78rem;color:var(--muted)">x${item.qty} &times; R${item.price.toFixed(2)}</div>
+          </div>
+          <div style="font-family:var(--font-d);font-size:1.1rem;color:var(--amber)">R${(item.price*item.qty).toFixed(2)}</div>
+        </div>`).join('')}
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:14px">
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;color:var(--muted)"><span>Subtotal</span><span>R${o.subtotal.toFixed(2)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:.88rem;color:var(--muted)"><span>Delivery</span><span>R${o.delivery.toFixed(2)}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:10px 0 0;border-top:1px solid var(--border);margin-top:6px">
+        <span style="font-weight:700">Total</span>
+        <span style="font-family:var(--font-d);font-size:1.4rem;color:var(--amber)">R${o.total.toFixed(2)}</span>
+      </div>
+    </div>`;
+
+  document.getElementById('modal-print-btn').onclick = () => window.location.href=`confirmation.html?order=${o.id}`;
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+  _modalOrder = null;
+}
+
+// Close on overlay click
+document.getElementById('modal-overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeModal();
+});
+</script>
+</body>
+</html>

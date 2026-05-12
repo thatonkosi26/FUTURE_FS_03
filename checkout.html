@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — GrillHouse</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="checkout">
+
+<!-- NAVBAR -->
+<nav class="navbar solid" id="navbar">
+  <a href="index.html" class="nav-brand">Grill<span>House</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="menu.html">Menu</a>
+    <a href="cart.html">Cart</a>
+    <a href="orders.html">My Orders</a>
+  </div>
+  <div class="nav-actions">
+    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+      <span class="cart-badge hidden" id="cart-badge-nav">0</span>
+    </a>
+    <a href="menu.html" class="btn-nav-cta">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="cart.html">Cart</a>
+  <a href="orders.html">My Orders</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="page-eyebrow">Almost There</div>
+    <h1 class="page-title">Check<span>out</span></h1>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <a href="cart.html">Cart</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <span>Checkout</span>
+    </nav>
+  </div>
+</div>
+
+<!-- CHECKOUT CONTENT -->
+<div class="checkout-page-wrap">
+  <div class="container">
+
+    <!-- Empty cart fallback -->
+    <div class="cart-empty hidden" id="empty-msg">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+      <h3>Your cart is empty</h3>
+      <p>Add some items before checking out.</p>
+      <a href="menu.html" class="btn btn-primary">Browse Menu</a>
+    </div>
+
+    <div class="checkout-layout" id="checkout-layout">
+
+      <!-- LEFT: Forms -->
+      <div>
+        <!-- Delivery Details -->
+        <div class="form-card">
+          <h3>
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            Delivery Details
+          </h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cust-name">Full Name <span style="color:var(--red)">*</span></label>
+              <input type="text" id="cust-name" class="form-control" placeholder="e.g. Sipho Dlamini" autocomplete="name">
+              <span class="field-error" id="err-name"></span>
+            </div>
+            <div class="form-group">
+              <label for="cust-phone">Phone Number <span style="color:var(--red)">*</span></label>
+              <input type="tel" id="cust-phone" class="form-control" placeholder="e.g. 082 000 0000" autocomplete="tel">
+              <span class="field-error" id="err-phone"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cust-address">Delivery Address <span style="color:var(--red)">*</span></label>
+            <input type="text" id="cust-address" class="form-control" placeholder="Street address, suburb, city" autocomplete="street-address">
+            <span class="field-error" id="err-addr"></span>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label for="cust-notes">Order Notes <span style="color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0;font-size:.78rem">(optional)</span></label>
+            <textarea id="cust-notes" class="form-control" placeholder="Special instructions, gate code, allergies…"></textarea>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="form-card">
+          <h3>
+            <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+            Payment Method
+          </h3>
+          <div class="payment-option selected">
+            <div class="payment-radio"><div class="payment-radio-dot"></div></div>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="var(--amber)"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+            <div class="payment-info">
+              <strong>Cash on Delivery (COD)</strong>
+              <span>Pay the driver when your order arrives</span>
+            </div>
+          </div>
+          <div class="cod-notice">
+            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+            <div>
+              <strong>Secure &amp; Safe</strong>
+              <p>Exact change is appreciated. Our drivers carry limited change.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Summary -->
+      <div>
+        <div class="summary-panel">
+          <h3>Order Summary</h3>
+          <div class="summary-items" id="summary-items"><!-- JS --></div>
+          <div class="summary-line"><span>Subtotal</span><span id="sum-subtotal">—</span></div>
+          <div class="summary-line"><span>Delivery Fee</span><span>R35.00</span></div>
+          <div class="summary-total">
+            <span class="label">Total</span>
+            <span class="amount" id="sum-total">—</span>
+          </div>
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+            <button class="btn btn-primary btn-full" onclick="placeOrder()">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+              Place Order — COD
+            </button>
+            <a href="cart.html" class="btn btn-ghost btn-full">
+              <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+              Back to Cart
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-compact">
+  <div class="container">
+    <div class="footer-compact-inner">
+      <a href="index.html" class="footer-logo">Grill<span>House</span></a>
+      <span class="footer-copy">&copy; 2025 GrillHouse. Cash on Delivery — Johannesburg &amp; Gauteng</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="utils/helpers.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/cart.js"></script>
+<script>
+const DELIVERY = 35;
+
+document.addEventListener('DOMContentLoaded', () => {
+  Cart.init();
+  initNavbar();
+
+  if (Cart.items.length === 0) {
+    document.getElementById('empty-msg').classList.remove('hidden');
+    document.getElementById('checkout-layout').style.display = 'none';
+    return;
+  }
+  renderSummary();
+});
+
+function initNavbar() {
+  const btn = document.getElementById('hamburger');
+  const drw = document.getElementById('mobile-drawer');
+  btn.addEventListener('click', () => {
+    const open = drw.classList.toggle('open');
+    const s = btn.querySelectorAll('span');
+    if (open) { s[0].style.transform='rotate(45deg) translate(5px,5px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+    else { s.forEach(x=>{x.style.transform='';x.style.opacity='';}); }
+  });
+}
+
+function renderSummary() {
+  const items    = Cart.items;
+  const subtotal = Cart.getTotal();
+  const total    = subtotal + DELIVERY;
+
+  document.getElementById('summary-items').innerHTML = items.map(item => `
+    <div class="summary-item">
+      <img src="${item.image}" alt="${item.name}" class="summary-item-img" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=100'">
+      <div>
+        <div class="summary-item-name">${item.name}</div>
+        <div class="summary-item-qty">x${item.qty}</div>
+      </div>
+      <div class="summary-item-price">R${(item.price*item.qty).toFixed(2)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('sum-subtotal').textContent = `R${subtotal.toFixed(2)}`;
+  document.getElementById('sum-total').textContent    = `R${total.toFixed(2)}`;
+}
+
+function placeOrder() {
+  const name  = document.getElementById('cust-name');
+  const phone = document.getElementById('cust-phone');
+  const addr  = document.getElementById('cust-address');
+  let valid = true;
+
+  const setErr = (el, errId, msg) => {
+    el.classList.toggle('error', !!msg);
+    document.getElementById(errId).textContent = msg;
+    if (msg) valid = false;
+  };
+
+  setErr(name,  'err-name',  name.value.trim()  ? '' : 'Full name is required.');
+  setErr(addr,  'err-addr',  addr.value.trim()  ? '' : 'Delivery address is required.');
+
+  const rawPhone = phone.value.replace(/\s/g,'');
+  if (!rawPhone) {
+    setErr(phone, 'err-phone', 'Phone number is required.');
+  } else if (!/^0[6-8]\d{8}$/.test(rawPhone)) {
+    setErr(phone, 'err-phone', 'Enter a valid SA number (e.g. 082 000 0000).');
+  } else {
+    setErr(phone, 'err-phone', '');
+  }
+
+  if (!valid) { showToast('Please fix the errors above.', 'error'); return; }
+
+  const subtotal = Cart.getTotal();
+  const order = {
+    id:        generateOrderId(),
+    createdAt: new Date().toISOString(),
+    status:    'pending',
+    customer:  { name:name.value.trim(), phone:phone.value.trim(), address:addr.value.trim(), notes:document.getElementById('cust-notes').value.trim() },
+    items:     Cart.items.map(i=>({...i})),
+    subtotal, delivery:DELIVERY, total:subtotal+DELIVERY, payment:'cod',
+  };
+
+  Storage.addOrder(order);
+  Cart.clear();
+  window.location.href = `confirmation.html?order=${order.id}`;
+}
+
+function generateOrderId() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let id = 'GH-';
+  for (let i=0;i<8;i++) id += chars[Math.floor(Math.random()*chars.length)];
+  return id;
+}
+
+function showToast(msg, type='success') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div'); t.className = `toast ${type}`;
+  const icons = { success:`<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`, error:`<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>`, info:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>` };
+  t.innerHTML = `<span class="t-icon">${icons[type]||icons.info}</span><span class="t-text">${msg}</span><button class="t-close" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),300);},3200);
+}
+</script>
+</body>
+</html>

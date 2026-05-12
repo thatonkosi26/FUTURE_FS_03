@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu — GrillHouse</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="menu">
+
+<!-- NAVBAR -->
+<nav class="navbar solid" id="navbar">
+  <a href="index.html" class="nav-brand">Grill<span>House</span></a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="menu.html" class="active">Menu</a>
+    <a href="cart.html">Cart</a>
+    <a href="orders.html">My Orders</a>
+  </div>
+  <div class="nav-actions">
+    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+      <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2S15.9 22 17 22s2-.9 2-2-.9-2-2-2z"/></svg>
+      <span class="cart-badge hidden" id="cart-badge-nav">0</span>
+    </a>
+    <a href="menu.html" class="btn-nav-cta">Order Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-drawer" id="mobile-drawer">
+  <a href="index.html">Home</a>
+  <a href="menu.html">Menu</a>
+  <a href="cart.html">Cart</a>
+  <a href="orders.html">My Orders</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="page-eyebrow">Explore Our Food</div>
+    <h1 class="page-title">Our <span>Menu</span></h1>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+      <span>Menu</span>
+    </nav>
+  </div>
+</div>
+
+<!-- MENU CONTENT -->
+<div class="menu-page-wrap">
+  <div class="container">
+    <div class="menu-layout">
+
+      <!-- Sidebar -->
+      <aside class="menu-sidebar">
+        <div class="sidebar-panel">
+          <h4>Categories</h4>
+          <div class="filter-list" id="filter-list">
+            <div class="spinner" style="width:24px;height:24px;margin:12px auto;"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main -->
+      <main>
+        <div class="menu-topbar">
+          <div class="menu-search-bar">
+            <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input type="text" id="menu-search" placeholder="Search meals…" aria-label="Search meals">
+          </div>
+          <span class="menu-count" id="meal-count"></span>
+        </div>
+        <div class="meals-grid" id="meals-grid">
+          <div class="spinner" style="grid-column:1/-1"></div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-compact">
+  <div class="container">
+    <div class="footer-compact-inner">
+      <a href="index.html" class="footer-logo">Grill<span>House</span></a>
+      <span class="footer-copy">&copy; 2025 GrillHouse. Cash on Delivery — Johannesburg &amp; Gauteng</span>
+    </div>
+  </div>
+</footer>
+
+<button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
+  <svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+</button>
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="utils/helpers.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/cart.js"></script>
+<script>
+const BADGE_MAP  = { bestseller:'Best Seller', hot:'Hot', new:'New' };
+const BADGE_CLS  = { bestseller:'badge-bestseller', hot:'badge-hot', new:'badge-new' };
+
+document.addEventListener('DOMContentLoaded', () => {
+  Cart.init();
+  initNavbar();
+  initScrollTop();
+  initMenu();
+});
+
+function initNavbar() {
+  const btn = document.getElementById('hamburger');
+  const drw = document.getElementById('mobile-drawer');
+  btn.addEventListener('click', () => {
+    const open = drw.classList.toggle('open');
+    const s = btn.querySelectorAll('span');
+    if (open) { s[0].style.transform='rotate(45deg) translate(5px,5px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(5px,-5px)'; }
+    else { s.forEach(x=>{x.style.transform='';x.style.opacity='';}); }
+  });
+  drw.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{drw.classList.remove('open');btn.querySelectorAll('span').forEach(s=>{s.style.transform='';s.style.opacity='';});}));
+}
+
+function initScrollTop() {
+  const b = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => b.classList.toggle('visible', window.scrollY > 300));
+  b.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+}
+
+function initMenu() {
+  const cats   = Storage.getCategories();
+  const meals  = Storage.getMeals();
+  const params = new URLSearchParams(window.location.search);
+  let activeCat = params.get('cat') || 'all';
+
+  // Build filters
+  const filterList = document.getElementById('filter-list');
+  filterList.innerHTML = `
+    <div class="filter-item ${activeCat==='all'?'active':''}" data-cat="all">
+      All Items <span class="filter-count">${meals.length}</span>
+    </div>
+    ${cats.map(cat => {
+      const count = meals.filter(m => m.category===cat.id).length;
+      return `<div class="filter-item ${activeCat===cat.id?'active':''}" data-cat="${cat.id}">
+        ${cat.name} <span class="filter-count">${count}</span>
+      </div>`;
+    }).join('')}
+  `;
+
+  filterList.querySelectorAll('.filter-item').forEach(item => {
+    item.addEventListener('click', () => {
+      filterList.querySelectorAll('.filter-item').forEach(i=>i.classList.remove('active'));
+      item.classList.add('active');
+      activeCat = item.dataset.cat;
+      renderMeals(activeCat, searchInput.value.trim());
+    });
+  });
+
+  const searchInput = document.getElementById('menu-search');
+  let debounceTimer;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => renderMeals(activeCat, searchInput.value.trim()), 220);
+  });
+
+  renderMeals(activeCat, '');
+}
+
+function renderMeals(catId, query) {
+  const meals   = Storage.getMeals();
+  const grid    = document.getElementById('meals-grid');
+  const countEl = document.getElementById('meal-count');
+  const q       = query.toLowerCase();
+
+  const filtered = meals.filter(m => {
+    const matchCat = catId==='all' || m.category===catId;
+    const matchQ   = !q || m.name.toLowerCase().includes(q) || m.description.toLowerCase().includes(q);
+    return matchCat && matchQ;
+  });
+
+  countEl.textContent = `${filtered.length} item${filtered.length!==1?'s':''}`;
+
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="no-results">
+      <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+      <h3>No meals found</h3>
+      <p>Try a different category or search term.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(m => `
+    <div class="meal-card">
+      <div class="meal-img-wrap">
+        <img src="${m.image}" alt="${m.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=70'">
+        ${m.badge?`<span class="meal-badge ${BADGE_CLS[m.badge]||''}">${BADGE_MAP[m.badge]||m.badge}</span>`:''}
+      </div>
+      <div class="meal-body">
+        <div class="meal-name">${m.name}</div>
+        <div class="meal-desc">${m.description}</div>
+        <div class="meal-footer">
+          <div class="meal-price">R${Number(m.price).toFixed(2)}</div>
+          <button class="add-to-cart-btn" data-id="${m.id}" aria-label="Add ${m.name} to cart">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (Cart.add(btn.dataset.id)) {
+        showToast('Added to cart!', 'success');
+        btn.style.transform = 'scale(1.35)';
+        setTimeout(() => btn.style.transform='', 300);
+      }
+    });
+  });
+}
+
+function showToast(msg, type='success') {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  const icons = { success:`<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`, error:`<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>`, info:`<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>` };
+  t.innerHTML = `<span class="t-icon">${icons[type]||icons.info}</span><span class="t-text">${msg}</span><button class="t-close" onclick="this.parentElement.remove()"><svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>`;
+  c.appendChild(t);
+  setTimeout(() => { t.classList.add('out'); setTimeout(()=>t.remove(),300); }, 3200);
+}
+</script>
+</body>
+</html>
