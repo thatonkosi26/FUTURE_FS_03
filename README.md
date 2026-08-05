@@ -1,6 +1,12 @@
 # GrillHouse — Premium Fast Food Web Application
 
-> A fully functional, frontend-only fast food ordering web application built with plain HTML, CSS, and JavaScript. No frameworks. No build tools. Just open and run.
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=k7ymbQzLGXA">
+    <img src="https://img.youtube.com/vi/k7ymbQzLGXA/maxresdefault.jpg" alt="GrillHouse Demo" width="800">
+  </a>
+</div>
+
+> A fully functional, frontend-only fast-food ordering web application built with plain HTML, CSS, and JavaScript. No frameworks. No build tools. Just open and run.
 >
 > Live Website: https://grillhouse-website.netlify.app/
 
